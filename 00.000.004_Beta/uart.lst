@@ -1,0 +1,195 @@
+   1               		.file	"uart.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+   8               		.global __do_copy_data
+   9               		.global __do_clear_bss
+  17               	.Ltext0:
+  18               	.global	UARTInit
+  20               	UARTInit:
+  21               	.LFB2:
+  22               	.LM1:
+  23 0000 DF93      		push r29
+  24 0002 CF93      		push r28
+  25 0004 CDB7      		in r28,__SP_L__
+  26 0006 DEB7      		in r29,__SP_H__
+  27               	/* prologue: function */
+  28               	/* frame size = 0 */
+  29               	.LM2:
+  30 0008 AAE2      		ldi r26,lo8(42)
+  31 000a B0E0      		ldi r27,hi8(42)
+  32 000c EAE2      		ldi r30,lo8(42)
+  33 000e F0E0      		ldi r31,hi8(42)
+  34 0010 8081      		ld r24,Z
+  35 0012 8068      		ori r24,lo8(-128)
+  36 0014 8C93      		st X,r24
+  37               	.LM3:
+  38 0016 AAE2      		ldi r26,lo8(42)
+  39 0018 B0E0      		ldi r27,hi8(42)
+  40 001a EAE2      		ldi r30,lo8(42)
+  41 001c F0E0      		ldi r31,hi8(42)
+  42 001e 8081      		ld r24,Z
+  43 0020 8860      		ori r24,lo8(8)
+  44 0022 8C93      		st X,r24
+  45               	.LM4:
+  46 0024 AAE2      		ldi r26,lo8(42)
+  47 0026 B0E0      		ldi r27,hi8(42)
+  48 0028 EAE2      		ldi r30,lo8(42)
+  49 002a F0E0      		ldi r31,hi8(42)
+  50 002c 8081      		ld r24,Z
+  51 002e 8061      		ori r24,lo8(16)
+  52 0030 8C93      		st X,r24
+  53               	.LM5:
+  54 0032 A0E4      		ldi r26,lo8(64)
+  55 0034 B0E0      		ldi r27,hi8(64)
+  56 0036 E0E4      		ldi r30,lo8(64)
+  57 0038 F0E0      		ldi r31,hi8(64)
+  58 003a 8081      		ld r24,Z
+  59 003c 8660      		ori r24,lo8(6)
+  60 003e 8C93      		st X,r24
+  61               	.LM6:
+  62 0040 E0E4      		ldi r30,lo8(64)
+  63 0042 F0E0      		ldi r31,hi8(64)
+  64 0044 1082      		st Z,__zero_reg__
+  65               	.LM7:
+  66 0046 E9E2      		ldi r30,lo8(41)
+  67 0048 F0E0      		ldi r31,hi8(41)
+  68 004a 89E1      		ldi r24,lo8(25)
+  69 004c 8083      		st Z,r24
+  70               	/* epilogue start */
+  71               	.LM8:
+  72 004e CF91      		pop r28
+  73 0050 DF91      		pop r29
+  74 0052 0895      		ret
+  75               	.LFE2:
+  77               	.global	UARTTX
+  79               	UARTTX:
+  80               	.LFB3:
+  81               	.LM9:
+  82 0054 DF93      		push r29
+  83 0056 CF93      		push r28
+  84 0058 0F92      		push __tmp_reg__
+  85 005a CDB7      		in r28,__SP_L__
+  86 005c DEB7      		in r29,__SP_H__
+  87               	/* prologue: function */
+  88               	/* frame size = 1 */
+  89 005e 8983      		std Y+1,r24
+  90               	.L4:
+  91               	.LM10:
+  92 0060 EBE2      		ldi r30,lo8(43)
+  93 0062 F0E0      		ldi r31,hi8(43)
+  94 0064 8081      		ld r24,Z
+  95 0066 882F      		mov r24,r24
+  96 0068 90E0      		ldi r25,lo8(0)
+  97 006a 8072      		andi r24,lo8(32)
+  98 006c 9070      		andi r25,hi8(32)
+  99 006e 0097      		sbiw r24,0
+ 100 0070 01F0      		breq .L4
+ 101               	.LM11:
+ 102 0072 ECE2      		ldi r30,lo8(44)
+ 103 0074 F0E0      		ldi r31,hi8(44)
+ 104 0076 8981      		ldd r24,Y+1
+ 105 0078 8083      		st Z,r24
+ 106               	/* epilogue start */
+ 107               	.LM12:
+ 108 007a 0F90      		pop __tmp_reg__
+ 109 007c CF91      		pop r28
+ 110 007e DF91      		pop r29
+ 111 0080 0895      		ret
+ 112               	.LFE3:
+ 114               	.global	UARTTX_String
+ 116               	UARTTX_String:
+ 117               	.LFB4:
+ 118               	.LM13:
+ 119 0082 DF93      		push r29
+ 120 0084 CF93      		push r28
+ 121 0086 00D0      		rcall .
+ 122 0088 00D0      		rcall .
+ 123 008a CDB7      		in r28,__SP_L__
+ 124 008c DEB7      		in r29,__SP_H__
+ 125               	/* prologue: function */
+ 126               	/* frame size = 4 */
+ 127 008e 9B83      		std Y+3,r25
+ 128 0090 8A83      		std Y+2,r24
+ 129 0092 6C83      		std Y+4,r22
+ 130               	.LM14:
+ 131 0094 1982      		std Y+1,__zero_reg__
+ 132 0096 00C0      		rjmp .L7
+ 133               	.L8:
+ 134               	.LM15:
+ 135 0098 EA81      		ldd r30,Y+2
+ 136 009a FB81      		ldd r31,Y+3
+ 137 009c 8081      		ld r24,Z
+ 138 009e 0E94 0000 		call UARTTX
+ 139               	.LM16:
+ 140 00a2 8A81      		ldd r24,Y+2
+ 141 00a4 9B81      		ldd r25,Y+3
+ 142 00a6 0196      		adiw r24,1
+ 143 00a8 9B83      		std Y+3,r25
+ 144 00aa 8A83      		std Y+2,r24
+ 145               	.LM17:
+ 146 00ac 8981      		ldd r24,Y+1
+ 147 00ae 8F5F      		subi r24,lo8(-(1))
+ 148 00b0 8983      		std Y+1,r24
+ 149               	.L7:
+ 150 00b2 9981      		ldd r25,Y+1
+ 151 00b4 8C81      		ldd r24,Y+4
+ 152 00b6 9817      		cp r25,r24
+ 153 00b8 01F4      		brne .L8
+ 154               	/* epilogue start */
+ 155               	.LM18:
+ 156 00ba 0F90      		pop __tmp_reg__
+ 157 00bc 0F90      		pop __tmp_reg__
+ 158 00be 0F90      		pop __tmp_reg__
+ 159 00c0 0F90      		pop __tmp_reg__
+ 160 00c2 CF91      		pop r28
+ 161 00c4 DF91      		pop r29
+ 162 00c6 0895      		ret
+ 163               	.LFE4:
+ 165               	.global	UARTRX
+ 167               	UARTRX:
+ 168               	.LFB5:
+ 169               	.LM19:
+ 170 00c8 DF93      		push r29
+ 171 00ca CF93      		push r28
+ 172 00cc CDB7      		in r28,__SP_L__
+ 173 00ce DEB7      		in r29,__SP_H__
+ 174               	/* prologue: function */
+ 175               	/* frame size = 0 */
+ 176               	.L11:
+ 177               	.LM20:
+ 178 00d0 EBE2      		ldi r30,lo8(43)
+ 179 00d2 F0E0      		ldi r31,hi8(43)
+ 180 00d4 8081      		ld r24,Z
+ 181 00d6 8823      		tst r24
+ 182 00d8 04F4      		brge .L11
+ 183               	.LM21:
+ 184 00da ECE2      		ldi r30,lo8(44)
+ 185 00dc F0E0      		ldi r31,hi8(44)
+ 186 00de 8081      		ld r24,Z
+ 187               	/* epilogue start */
+ 188               	.LM22:
+ 189 00e0 CF91      		pop r28
+ 190 00e2 DF91      		pop r29
+ 191 00e4 0895      		ret
+ 192               	.LFE5:
+ 242               	.Letext0:
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 uart.c
+     /tmp/ccqXyCPe.s:2      *ABS*:000000000000003f __SREG__
+     /tmp/ccqXyCPe.s:3      *ABS*:000000000000003e __SP_H__
+     /tmp/ccqXyCPe.s:4      *ABS*:000000000000003d __SP_L__
+     /tmp/ccqXyCPe.s:5      *ABS*:0000000000000034 __CCP__
+     /tmp/ccqXyCPe.s:6      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/ccqXyCPe.s:7      *ABS*:0000000000000001 __zero_reg__
+     /tmp/ccqXyCPe.s:20     .text:0000000000000000 UARTInit
+     /tmp/ccqXyCPe.s:79     .text:0000000000000054 UARTTX
+     /tmp/ccqXyCPe.s:116    .text:0000000000000082 UARTTX_String
+     /tmp/ccqXyCPe.s:167    .text:00000000000000c8 UARTRX
+
+UNDEFINED SYMBOLS
+__do_copy_data
+__do_clear_bss

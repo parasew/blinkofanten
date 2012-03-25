@@ -1,0 +1,91 @@
+   1               		.file	"eeprom.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+   8               		.global __do_copy_data
+   9               		.global __do_clear_bss
+  17               	.Ltext0:
+  18               	.global	eeprom_LED_Green
+  19               		.section	.eeprom,"aw",@progbits
+  22               	eeprom_LED_Green:
+  23 0000 00        		.skip 1,0
+  24               	.global	eeprom_LED_Red
+  27               	eeprom_LED_Red:
+  28 0001 00        		.skip 1,0
+  29               		.text
+  30               	.global	set_eeprom_byte
+  32               	set_eeprom_byte:
+  33               	.LFB2:
+  34               	.LM1:
+  35 0000 DF93      		push r29
+  36 0002 CF93      		push r28
+  37 0004 0F92      		push __tmp_reg__
+  38 0006 CDB7      		in r28,__SP_L__
+  39 0008 DEB7      		in r29,__SP_H__
+  40               	/* prologue: function */
+  41               	/* frame size = 1 */
+  42 000a 8983      		std Y+1,r24
+  43               	.LM2:
+  44 000c 80E0      		ldi r24,lo8(eeprom_LED_Green)
+  45 000e 90E0      		ldi r25,hi8(eeprom_LED_Green)
+  46 0010 60E3      		ldi r22,lo8(48)
+  47 0012 0E94 0000 		call __eewr_byte_m32
+  48               	.LM3:
+  49 0016 80E0      		ldi r24,lo8(eeprom_LED_Red)
+  50 0018 90E0      		ldi r25,hi8(eeprom_LED_Red)
+  51 001a 60E3      		ldi r22,lo8(48)
+  52 001c 0E94 0000 		call __eewr_byte_m32
+  53               	/* epilogue start */
+  54               	.LM4:
+  55 0020 0F90      		pop __tmp_reg__
+  56 0022 CF91      		pop r28
+  57 0024 DF91      		pop r29
+  58 0026 0895      		ret
+  59               	.LFE2:
+  61               	.global	get_eeprom_byte
+  63               	get_eeprom_byte:
+  64               	.LFB3:
+  65               	.LM5:
+  66 0028 DF93      		push r29
+  67 002a CF93      		push r28
+  68 002c 0F92      		push __tmp_reg__
+  69 002e CDB7      		in r28,__SP_L__
+  70 0030 DEB7      		in r29,__SP_H__
+  71               	/* prologue: function */
+  72               	/* frame size = 1 */
+  73               	.LM6:
+  74 0032 80E0      		ldi r24,lo8(eeprom_LED_Green)
+  75 0034 90E0      		ldi r25,hi8(eeprom_LED_Green)
+  76 0036 0E94 0000 		call __eerd_byte_m32
+  77 003a 8983      		std Y+1,r24
+  78               	.LM7:
+  79 003c 8981      		ldd r24,Y+1
+  80               	/* epilogue start */
+  81               	.LM8:
+  82 003e 0F90      		pop __tmp_reg__
+  83 0040 CF91      		pop r28
+  84 0042 DF91      		pop r29
+  85 0044 0895      		ret
+  86               	.LFE3:
+ 120               	.Letext0:
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 eeprom.c
+     /tmp/ccibz5Zd.s:2      *ABS*:000000000000003f __SREG__
+     /tmp/ccibz5Zd.s:3      *ABS*:000000000000003e __SP_H__
+     /tmp/ccibz5Zd.s:4      *ABS*:000000000000003d __SP_L__
+     /tmp/ccibz5Zd.s:5      *ABS*:0000000000000034 __CCP__
+     /tmp/ccibz5Zd.s:6      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/ccibz5Zd.s:7      *ABS*:0000000000000001 __zero_reg__
+     /tmp/ccibz5Zd.s:22     .eeprom:0000000000000000 eeprom_LED_Green
+     /tmp/ccibz5Zd.s:27     .eeprom:0000000000000001 eeprom_LED_Red
+     /tmp/ccibz5Zd.s:32     .text:0000000000000000 set_eeprom_byte
+     /tmp/ccibz5Zd.s:63     .text:0000000000000028 get_eeprom_byte
+
+UNDEFINED SYMBOLS
+__do_copy_data
+__do_clear_bss
+__eewr_byte_m32
+__eerd_byte_m32
