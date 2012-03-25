@@ -1,15 +1,29 @@
-/* blinkytest */
+/* 
+blinkytest 
+for blinkofant
 
+wizard23
+
+1 modul braucht 1.2A
+
+*/
+
+
+#include "SPI.h"
 
 #define CLEAR_PANEL_PIN 10
+// this goes on panel to pin #10
+
 #define DATA_PIN 11
-#define CLOCK_PIN 9
+// this goes on panel to pin #8 
 
+#define CLOCK_PIN 13
+// this goes on panel to pin #4 
 
-#define PANELS 1
+#define PANELS 2
 #define PANELDATA_SIZE (10*PANELS)
 
-uint8_t panelData[10*PANELS];
+uint8_t panelData[PANELDATA_SIZE];
 
 void setPixel(int x, int y, int value)
 {
@@ -35,6 +49,8 @@ void setAllPixel(uint8_t value)
   }
 }
 
+
+/*  we use SPI now ;)
 void shiftPixelData()
 {
   screen_off();
@@ -42,21 +58,32 @@ void shiftPixelData()
   for (int i = 0; i < PANELDATA_SIZE; i++)
   {
     uint8_t value = panelData[i];
-    /*
-    for (int b = 0; b < 8; b++)
-    {
-      digitalWrite(DATA_PIN, value & 1);
-      digitalWrite(CLOCK_PIN,HIGH);
-      digitalWrite(CLOCK_PIN,LOW);
-      
-      value >>= 1;
-    }
-    */
+
     shiftOut(DATA_PIN, CLOCK_PIN, LSBFIRST, panelData[i]);
   }
   
   screen_on();
 }
+*/
+
+
+void shiftPixelData()
+{
+  screen_off();
+  
+  for (int i = 0; i < PANELDATA_SIZE; i++)
+  {
+    uint8_t value = panelData[i];
+    
+    SPDR = panelData[i];
+    while(!(SPSR & (1<<SPIF)));
+  }
+  
+  screen_on();
+    
+
+}
+
 
 
 void setup()
@@ -68,6 +95,14 @@ void setup()
   digitalWrite(CLEAR_PANEL_PIN,LOW);
   digitalWrite(DATA_PIN,LOW);
   digitalWrite(CLOCK_PIN,LOW);
+  
+  
+    SPI.begin();
+    SPI.setBitOrder(LSBFIRST);
+    SPI.setDataMode(SPI_MODE0);
+    SPI.setClockDivider(SPI_CLOCK_DIV128); // biggest divider there is.
+    
+
 }
 
 
@@ -88,29 +123,50 @@ int state = 0;
   
 void loop ()
 {
-  if (0)
-  {
-    setAllPixel(0xAA);
-    shiftPixelData();
-    delay(500);
-    setAllPixel(0x55);
-    shiftPixelData();
-    delay(500);
-    return;
-  }
+    state++;
     
-  
-  for (int x = 0; x < 8; x++)
+    
+  for (int x = 0; x < 8*PANELS; x++)
   {
     for (int y = 0; y < 9; y++)
     {
-      setPixel(x, y, ((x>>1) + (y>>1) + state) & 1);
+      setPixel(x, y, state % 2);
+    }
+  }
+  
+  shiftPixelData();  
+  delay(5000);
+  return;
+    
+  /*  
+  for (int x = 0; x < 8*PANELS; x++)
+  {
+    for (int y = 0; y < 9; y++)
+    {
+      setPixel(x, y, ((x>>1)+(y>>1)+state)&1);
+    }
+  }
+  
+  shiftPixelData();  
+  delay(4);
+  return;
+  */
+  for (int x = 0; x < 8*PANELS; x++)
+  {
+    for (int y = 0; y < 9; y++)
+    {
+      //setPixel(x, y, ((x>>1) + (y>>1) + state) & 1);
+      float dx = x-4;
+      float dy = y-4;
+      float d = sqrt(dx*dx+dy*dy); 
+      int ds = 3*d+state;
+      setPixel(x, y, (ds % 20) <= 10);
     }
   }
   
   shiftPixelData();
-  delay(state%100);
-  state++;
+  delay(5);
+
 
   
 }
