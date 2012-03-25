@@ -1,3 +1,6 @@
+#i
+# lecker arduino upload
+# flo
 # WinAVR Sample makefile written by WSyS.at.
 # Released to the Public Domain
 # Please read the make user manual!
